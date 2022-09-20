@@ -1,0 +1,17 @@
+[
+  {
+    "user_id": "QJOkKCcbKjNmOnWR",
+    "firstname": "Adnan",
+    "lastname": "Khan",
+    "email": "adnan@code.in",
+    "password": "$2b$12$7OO840H0htaPUfk/SJmVaOITmWbfZNeIU.FAIVtA684AgHbWK8CM2",
+    "address": "Hyderabad",
+    "phone": "+918247026579",
+    "tasks": [],
+    "isVerified": { "phone": false, "email": false },
+    "verifyToken": {
+      "phoneToken": "MifoHIwfpKx6Z0Jn6qnW",
+      "emailToken": "F9nbhdWqCHBfJa1Y6pUe"
+    }
+  }
+]
