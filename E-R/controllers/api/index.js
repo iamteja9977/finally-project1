@@ -80,21 +80,10 @@ router.post("/signup", registerValidation(), errorMiddleware, async (req, res) =
     try {
         // console.log(req.body);
         let { firstname, lastname, email, password, password2, address, phone } = req.body;
-        // // let body = req.body;
-
-        // //Basic Validations
-        // if (!email || !firstname || !lastname || !phone || !address || !password || !password2) {
-        //     return res.status(400).json({ "error": "Some Fields Are Missing " });
-        // }
-        // if (password !== password2) {
-        //     return res.status(400).json({ "error": "Passwords are Not Same" });
-        // }
-        //Check Duplication of Email & Mobile
+    
         let fileData = await fs.readFile("data.json");
         fileData = JSON.parse(fileData);
-        //
-        // console.log(fileData);
-        // console.log(email);
+       
 
         let emailFound = fileData.find((ele) => ele.email == email)
         // console.log(emailFound);

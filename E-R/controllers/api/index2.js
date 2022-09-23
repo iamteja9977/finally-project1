@@ -1,9 +1,5 @@
 import express from "express";
-import {
-  loginValidation,
-  registerValidation,
-  errorMiddleware,
-} from "../../middleware/validation/index.js";
+import {loginValidation,registerValidation,errorMiddleware,} from "../../middleware/validation/index.js";
 import fs from "fs/promises";
 import bcrypt from "bcrypt";
 import config from "config";
@@ -14,50 +10,56 @@ import generateToken from "../../middleware/auth/generateToken.js";
 import { randomString, sendEmail, sendSMS } from "../../utils/index.js";
 const router = express.Router();
 
-// router.use((req, res, next) => {
-//     try {
-//         console.log("HELLO WORLD FROM NEXT");
-//         req.payload="HI QASIM";
-//         req.adnan="HI ADNAN";
-//         // res.status(200).json({ success: "Next Middleware" })
-//         next();
-//     } catch (error) {
-//         console.log(error);
-//         res.status(500).json({ error: "Internal Server Error " })
-//     }
-// })
+router.post("/signup",registerValidation(),errorMiddleware, async (req, res) => {
+  try {
+    
+      let {email,phone}=req.body;
+      //or you can comment previous line ,directly write email:req.body.email and phone:req.body.phone
+   
+      const mailFound = await userModel.findOne({ email });
+    // console.log(mailFound);
+    if (mailFound) {
+      return res.status(409).json({ error: "email Already registered" });
+    }
 
-/*
-METHOD : POST
+    const phoneFound = await userModel.findOne({ phone });
+    // console.log(phoneFound);
+    if (phoneFound) {
+      return res.status(409).json({ error: "Phone Already registered" });
+    }
+   
+    req.body.password = await bcrypt.hash(req.body.password, 12);
+    let userData = new userModel(req.body);
+    console.log(userData);
+    await userData.save();
+    res.status(200).json({ success: "User Signed Up Succesfully" });
+    //   sendSMS({
+    //     body: `Thank you for Signing Up. Please click on the given link to verify your phone. ${config.get(
+    //       "URL"
+    //     )}/api/verify/mobile/${phoneToken}`,
+    //     to: phone,
+    //   });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+}
+);
 
-
-PUBLIC
-API Endpoint : /api/login
-Body : 
-
-email
-password 
-*/
 
 router.post("/login", loginValidation(), errorMiddleware, async (req, res) => {
   try {
-    let { email, password } = req.body;
-    // if (!email || !password) {
-    //     return res.status(400).json({ "error": "Some Fields Are Missing " });
-    // }
-
-    let fileData = await fs.readFile("data.json");
-    fileData = JSON.parse(fileData);
-
-    let userFound = fileData.find((ele) => ele.email == email);
+    let login_user=new userModel(req.body)
+let {email,password}=req.body;
+    let userFound = await userModel.findOne({email});
     if (!userFound) {
-      return res.status(401).json({ error: "Invalid Credentials " });
+      return res.status(401).json({ error: "Invalid Credentials[user not found] " });
     }
-    // console.log(userFound);
-    let matchPassword = await bcrypt.compare(password, userFound.password);
+  
+    let matchPassword = await bcrypt.compare(req.body.password, userFound.password);
     // console.log(matchPassword);
     if (!matchPassword) {
-      return res.status(401).json({ error: "Invalid Credentials " });
+      return res.status(401).json({ error: "Invalid Credentials 'password not match' " });
     }
 
     let payload = {
@@ -65,12 +67,10 @@ router.post("/login", loginValidation(), errorMiddleware, async (req, res) => {
       role: "user",
     };
 
-    // let privatekey = "codeforindia";
-
+  
     //GENERATE A TOKEN
     const token = generateToken(payload);
     // console.log(token);
-
     res.status(200).json({ success: "Login is Successful", token });
   } catch (error) {
     console.error(error);
@@ -78,72 +78,7 @@ router.post("/login", loginValidation(), errorMiddleware, async (req, res) => {
   }
 });
 
-router.post(
-  "/signup",
-  registerValidation(),
-  errorMiddleware,
-  async (req, res) => {
-    try {
-      let userData = new userModel(req.body);
-        let {email,phone}=req.body;
-        //or you can comment previous line ,directly write email:req.body.email and phone:req.body.phone
-      const mailFound = await userModel.findOne({ email });
-      console.log(mailFound);
-      if (mailFound) {
-        return res.status(409).json({ error: "email Already registered" });
-      }
 
-      const phoneFound = await userModel.findOne({ phone });
-      // console.log(phoneFound);
-      if (phoneFound) {
-        return res.status(409).json({ error: "Phone Already registered" });
-      }
-      // if (emailFound) {
-      //     return res.status(409).json({ error: "User Email Already Registered. Please Login" });
-      // }
-
-      // let phoneFound = fileData.find((ele) => ele.phone == phone)
-      // if (phoneFound) {
-      //     return res.status(409).json({ error: "User Phone Already Registered. Please Login." })
-      // }
-
-      req.body.password = await bcrypt.hash(req.body.password, 12);
-
-      //Generate a 12 Digit Random String for user_id
-
-      // let user_id = randomString(16);
-      // console.log(user_id);
-      // let userData = { user_id, firstname, lastname, email, password, address, phone };
-      // userData.tasks = []
-      // userData.isVerified = {
-      //     phone: false,
-      //     email: false
-      // }
-      // let phoneToken = randomString(20);
-      // let emailToken = randomString(20);
-      // userData.verifyToken = {
-      //     phoneToken,
-      //     emailToken
-      // }
-
-      // userData.firstname = firstname;
-      // console.log(userData)
-      // fileData.push(userData);
-      console.log(userData);
-      await userData.save();
-      res.status(200).json({ success: "User Signed Up Succesfully" });
-      //   sendSMS({
-      //     body: `Thank you for Signing Up. Please click on the given link to verify your phone. ${config.get(
-      //       "URL"
-      //     )}/api/verify/mobile/${phoneToken}`,
-      //     to: phone,
-      //   });
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: "Internal Server Error" });
-    }
-  }
-);
 
 router.get("/", (req, res) => {
   try {

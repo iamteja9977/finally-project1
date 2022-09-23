@@ -1,23 +1,18 @@
 import express from "express";
+import jwt from "jsonwebtoken";
 import authMiddleware from "../../middleware/auth/verifyToken.js";
 import { scheduleJob, scheduledJobs, cancelJob } from "node-schedule";
 import fs from "fs/promises";
 
 import { randomString, sendEmail, sendSMS } from "../../utils/index.js";
-// import randomString from "../../utils/";
-// import sendEmail from "../utils/sendMail.js";
-// import sendSMS from "../utils/sendSMS.js";
-
+import userModel from "../../model.js"
 
 const router = express.Router();
 
 router.post("/", authMiddleware, async (req, res) => {
     try {
-        //Check for Authorization 
-        // let token = req.headers["auth-token"];
-        // if (!token) {
-        //     return res.status(401).json({ error: "Unauthorised Access" });
-        // }
+        // let userData=new userModel(req.body)
+
         const payload = req.payload;
         // console.log(payload);
         if (!payload) {
@@ -25,14 +20,11 @@ router.post("/", authMiddleware, async (req, res) => {
         }
 
         //Check Req.body
+      let { task_name, deadline } = req.body;
 
-        let { task_name, deadline } = req.body;
         if (!task_name || !deadline) {
             return res.status(400).json({ error: "Some Fields are Missing" });
         }
-
-        //    console.log(task_name, deadline);
-
 
         let utc_deadline = new Date(deadline);
         //Check if format is Right or Not
@@ -49,10 +41,7 @@ router.post("/", authMiddleware, async (req, res) => {
 
         //Check Validation for 30 mins and 30 Days
         let difference = utc_deadline - present_time;
-        // console.log(utc_deadline);
-        // console.log(present_time);
-        // console.log(difference);
-
+        
 
         //Difference in Minutes
         let mins = difference / (1000 * 60)
@@ -79,14 +68,10 @@ router.post("/", authMiddleware, async (req, res) => {
         // console.log(reminder3);
 
         reminders.push(reminder1, reminder2, reminder3, utc_deadline);
-        console.log(reminders);
+        // console.log(reminders);
 
-
-        //Reading File Data
-        let fileData = await fs.readFile("data.json");
-        fileData = JSON.parse(fileData);
-
-        let userFound = fileData.find((ele) => ele.user_id == payload.user_id)
+let userFound= await userModel.findOne(payload.user_id)
+     
         // console.log(userFound);
         let task_id = randomString(14)
         let task_data = {
@@ -116,16 +101,11 @@ router.post("/", authMiddleware, async (req, res) => {
             // console.log(i);
         })
         console.log(scheduledJobs);
-
-        // console.log(task_data);
         console.log(userFound.tasks);
         userFound.tasks.push(task_data);
 
-        // console.log(userFound);
-        // console.log(fileData);
-
-
-        await fs.writeFile("data.json", JSON.stringify(fileData));
+        
+        await userFound.save();
         res.status(200).json({ success: "Task was Added" })
     } catch (error) {
         console.log(error);
@@ -142,8 +122,39 @@ router.get("/tasks", (req, res) => {
     }
 })
 
-router.delete("/:task_id", (req, res) => {
+router.delete("/:task_id", async (req, res) => {
     try {
+       
+        let task_id = req.params.task_id;
+        console.log(task_id);
+    
+        //Check for Authorisation
+        let token = req.headers["auth-token"];
+        if (!token) {
+          return res.status(401).json({ error: "Unauthorised Access" });
+        }
+        const payload = jwt.verify(token, "codeforindia");
+        // console.log(payload);
+        if (!payload) {
+          return res.status(401).json({ error: "Unauthorised Access" });
+        }
+    
+   
+let userFound= await userModel.findOne(payload.user_id)
+        // console.log(userFound);
+    
+        //Find Index of Given Task
+        let taskIndex = userFound.tasks.findIndex((ele) => ele._id == task_id);
+        // console.log(taskIndex);
+    
+        if (taskIndex == -1) {
+          return res.status(404).json({ error: "Task Not Found" });
+        }
+    
+        //Delete Element with Given Index from an Array
+        userFound.tasks.splice(taskIndex, 1);
+        
+        await userFound.save();
         res.status(200).json({ "success": "TASK DELETE is UP" });
     } catch (error) {
         console.error(error);
