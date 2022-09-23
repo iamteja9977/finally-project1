@@ -17,7 +17,12 @@ app.post("/booking",async (req, res) => {
         // console.log(req.body);
         let booking_data = new hotelModel(req.body);
 
-        
+        let {email}=req.body;
+        const userdata= await hotelModel.findOne({email});
+        console.log(userdata);
+        if (userdata){
+            return res.status(409).json({error:"Already registered"})
+        }
 
         await booking_data.save();
         // console.log(booking_data);
