@@ -1,0 +1,16 @@
+{
+    "PORT": 5000,
+    "URL": "http://192.168.68.222:5000",
+    
+  
+  
+    "EMAIL_SMTP": {
+      "HOST": "mail.csmafia.com",
+      "AUTH": {
+        "USER": "cfi@csmafia.com",
+        "PASSWORD": "codeforindiaFTW"
+      },
+      "PORT": 465
+    }
+  }
+  
