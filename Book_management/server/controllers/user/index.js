@@ -10,6 +10,7 @@ import randomString from "../../utils/randomString.js";
 import Users from "../../models/Users/index.js";
 import book from "../../models/book/index.js"
 import generateToken from "../../middlewares/auth/index.js";
+import authMiddleware from "../../middlewares/auth/verifyToken.js";
 // import authMiddleware from "../../middleware/auth/verifyToken.js";
 //IMport Validations
 
@@ -95,20 +96,24 @@ router.post("/login", loginValidation(), errorMiddleware, async (req, res) => {
       } 
 })
 
-router.post("/AddBook", addbookvalidations(), errorMiddleware , async (req, res) => {
+router.post("/AddBook", addbookvalidations(), errorMiddleware ,authMiddleware, async (req, res) => {
     try {
-
+      const payload = req.payload;
+      // console.log(payload);
+      if (!payload) {
+          return res.status(401).json({ error: "Unauthorised Access" });
+      }
     
-                //Check for Authorisation
-                let token = req.headers["auth-token"];
-                if (!token) {
-                  return res.status(401).json({ error: "Unauthorised Access 107" });
-                }
-                const payload = jwt.verify(token, "codeforindia");
-                // console.log(payload);
-                if (!payload) {
-                  return res.status(401).json({ error: "Unauthorised Access112" });
-                }
+                // //Check for Authorisation
+                // let token = req.headers["auth-token"];
+                // if (!token) {
+                //   return res.status(401).json({ error: "Unauthorised Access 107" });
+                // }
+                // const payload = jwt.verify(token, "codeforindia");
+                // // console.log(payload);
+                // if (!payload) {
+                //   return res.status(401).json({ error: "Unauthorised Access112" });
+                // }
             
 
         //Check Req.body
@@ -136,6 +141,18 @@ let Book_data={
         console.log(error);
         res.status(500).json({ error: "Internal Server Error" })
     }
+})
+
+router.get("/books", async (req, res) => {
+  try {
+
+    let book_data=await book.find({});
+      // await user.save();
+      res.status(200).json({ success: "Book found",book_data })
+  } catch (error) {
+      console.log(error);
+      res.status(500).json({ error: "Internal Server Error" })
+  }
 })
 
 
