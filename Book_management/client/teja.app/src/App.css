@@ -1,47 +1,73 @@
 * {
-    box-sizing: border-box;
-  }
-  
-  .menu {
-    float: left;
-    width: 20%;
-    text-align: center;
-  }
-  
-  .menu a {
-    background-color: #e5e5e5;
-    padding: 15px;
-    margin-top: 7px;
-    display: block;
-    width: 100%;
-    color: black;
-  }
-  
-  .main {
-    float: left;
-    width: 80%;
-    padding: 0 20px;
-  }
-  
+  box-sizing: border-box;
+}
+
+.menu {
+  float: left;
+  width: 20%;
+  text-align: center;
+}
+
+.menu a {
+  background-color: #e5e5e5;
+  padding: 15px;
+  margin-top: 7px;
+  display: block;
+  width: 100%;
+  color: black;
+}
+
+.main {
+  float: left;
+  width: 80%;
+  padding: 0 20px;
+}
+
+.right {
+  background-color: #e5e5e5;
+  float: left;
+  width: 20%;
+  padding: 15px;
+  margin-top: 7px;
+  text-align: center;
+}
+
+.container {
+  width: 40%;
+  margin: auto;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="tel"],
+textarea,
+select {
+  width: 100%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  display: inline-block;
+  border: none;
+  background-color: #f1f1f1;
+}
+
+input[type="submit"] {
+  width: 30%;
+  padding: 15px;
+  font-weight: bolder;
+  border: none;
+  cursor: pointer;
+}
+
+a {
+  text-decoration: none;
+}
+
+@media only screen and (max-width: 620px) {
+  /* For mobile phones: */
+  .menu,
+  .main,
   .right {
-    background-color: #e5e5e5;
-    float: left;
-    width: 20%;
-    padding: 15px;
-    margin-top: 7px;
-    text-align: center;
+    width: 100%;
   }
-  
-  a {
-    text-decoration: none;
-  }
-  
-  @media only screen and (max-width: 620px) {
-  
-    /* For mobile phones: */
-    .menu,
-    .main,
-    .right {
-        width: 100%;
-    }
-  }
+}
