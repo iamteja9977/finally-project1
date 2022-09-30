@@ -26,10 +26,10 @@ function Register() {
         try {
             e.preventDefault();
             console.log(userData);
-            let res = await axios.post("/api/register", userData);
+            let res = await axios.post("/api/user/register", userData);
             console.log(res.data);
         } catch (error) {
-            console.error(error);
+            console.error(error.data.response);
         }
     }
 

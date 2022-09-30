@@ -103,18 +103,6 @@ router.post("/AddBook", addbookvalidations(), errorMiddleware ,authMiddleware, a
       if (!payload) {
           return res.status(401).json({ error: "Unauthorised Access" });
       }
-    
-                // //Check for Authorisation
-                // let token = req.headers["auth-token"];
-                // if (!token) {
-                //   return res.status(401).json({ error: "Unauthorised Access 107" });
-                // }
-                // const payload = jwt.verify(token, "codeforindia");
-                // // console.log(payload);
-                // if (!payload) {
-                //   return res.status(401).json({ error: "Unauthorised Access112" });
-                // }
-            
 
         //Check Req.body
       let { title,Author,coverImagrUrl,id,PageCount,publisher,synopsis} = req.body;
