@@ -9,6 +9,9 @@ import {
 import Main from './components/Main';
 import Register from './components/Register';
 import Login from './components/Login';
+import AdminDashboard from './components/AdminDashboard';
+import UserDashboard from './components/UserDashboard';
+
 
 function App() {
 
@@ -27,15 +30,18 @@ function App() {
 
   return (
     <>
-
       <Routes>
-
         <Route path="/" element={<Main />} />
         <Route path="/register" element={<Register
           alert={alert}
           showAlert={showAlert}
         />}></Route>
-        <Route path='/login' element={<Login />} />
+        <Route path='/login' element={<Login
+          alert={alert}
+          showAlert={showAlert}
+        />} />
+        <Route path="/user" element={<UserDashboard />} />
+        <Route path="/admin" element={<AdminDashboard />} />
       </Routes>
     </>
   );

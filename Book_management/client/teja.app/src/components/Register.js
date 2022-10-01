@@ -1,7 +1,8 @@
 import Header from "./Header";
 import { useState } from "react";
 import axios from "axios";
-
+import { Link } from "react-router-dom"
+// import NavBar from "./Navbar";
 
 function Register({ alert, showAlert }) {
 
@@ -46,7 +47,6 @@ function Register({ alert, showAlert }) {
                     msg: errorString
                 })
             } else {
-
                 //Custom Errors
                 showAlert({
                     type: "error",
@@ -62,11 +62,11 @@ function Register({ alert, showAlert }) {
     return (
         <>
             <Header content={"User Register"} />
-
+            {/* <NavBar /> */}
             <div className="container">
                 <div>
                     <center>
-                        <img src="https://pngimg.com/uploads/book/book_PNG51090.png" alt="login" style={{ width: '30%' }} />
+                        <Link to="/"> <img src="https://pngimg.com/uploads/book/book_PNG51090.png" alt="login" style={{ width: '30%' }} /></Link>
                     </center>
                 </div>
                 {alert !== null && <h3 className={`alert-${alert.type}`}>{alert.msg}</h3>}
@@ -85,7 +85,7 @@ function Register({ alert, showAlert }) {
                         <input type="submit" value="Register" />
                     </form>
                 </div>
-                <p> Already have an account ? <b> Login</b></p>
+                <p> Already have an account ? <b> <Link to="/login">Login</Link></b></p>
             </div>
         </>
     )
