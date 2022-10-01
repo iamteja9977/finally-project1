@@ -1,10 +1,13 @@
 import mongoose from "mongoose";
-async function connectDB (){
+import config from "config";
+async function connectDB() {
     try {
-        await mongoose.connect("mongodb+srv://m001-student:m001-mongodb-basics@sandbox.0vhyxil.mongodb.net/Book_management")
-   console.log("mongo DB is connected")
+        await mongoose.connect(config.get("DB_URI"));
+        console.log("Mongo DB is Connected");
+
     } catch (error) {
-        console.log(error)
+        console.log(error);
     }
 }
+
 connectDB();

@@ -4,7 +4,7 @@ import config from "config";
 import "./dbConnect.js";
 
 import UserRoutes from "./controllers/user/index.js";
-
+import RootRoutes from "./controllers/root/index.js"
 const app = express();
 const port = config.get("PORT");
 
@@ -16,6 +16,7 @@ app.get("/", (req, res) => {
 })
 
 app.use("/api/user", UserRoutes);
+app.use("/api", RootRoutes)
 
 app.listen(port, () => {
     console.log("Server Started at Port : ", port);
