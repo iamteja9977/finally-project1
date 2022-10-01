@@ -1,7 +1,7 @@
 import Header from "./Header";
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
 
 function Login({ alert, showAlert }) {
     let navigate = useNavigate();
@@ -87,7 +87,7 @@ function Login({ alert, showAlert }) {
                         <input type="submit" value="Login" />
                     </form>
                 </div>
-                <p> Do not have an account ? <b> Register</b></p>
+                <p> Do not have an account ? <b><Link to="/register"> Register</Link></b></p>
             </div>
         </>
     )
