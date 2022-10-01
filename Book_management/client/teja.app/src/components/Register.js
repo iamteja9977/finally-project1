@@ -3,7 +3,7 @@ import { useState } from "react";
 import axios from "axios";
 
 
-function Register() {
+function Register({ alert, showAlert }) {
 
     const [userData, setUserData] = useState({
         firstname: "",
@@ -24,12 +24,38 @@ function Register() {
 
     const onSubmitHandler = async (e) => {
         try {
+            //Prevents Refreshing the Form
             e.preventDefault();
             console.log(userData);
             let res = await axios.post("/api/user/register", userData);
             console.log(res.data);
+            showAlert({
+                type: "success",
+                msg: res.data.success
+            })
         } catch (error) {
-            console.error(error.data.response);
+
+            if (error.response.data.errors) {
+                //Handling Express Validators
+                let errorString = "";
+                error.response.data.errors.forEach((ele) => {
+                    errorString += ele.msg
+                })
+                showAlert({
+                    type: "error",
+                    msg: errorString
+                })
+            } else {
+
+                //Custom Errors
+                showAlert({
+                    type: "error",
+                    msg: error.response.data.error
+                })
+            }
+
+            console.log("Catch")
+            console.log(error.response.data.error);
         }
     }
 
@@ -43,6 +69,7 @@ function Register() {
                         <img src="https://pngimg.com/uploads/book/book_PNG51090.png" alt="login" style={{ width: '30%' }} />
                     </center>
                 </div>
+                {alert !== null && <h3 className={`alert-${alert.type}`}>{alert.msg}</h3>}
                 <div>
                     <form onSubmit={onSubmitHandler}>
                         <label htmlFor="firstname"><b>First Name :</b></label>

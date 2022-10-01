@@ -63,6 +63,17 @@ a {
   text-decoration: none;
 }
 
+.alert-success{
+  color: green;
+  /* background-color: lightgreen; */
+}
+
+.alert-error{
+  color: red;
+  /* background-color: lightpink; */
+}
+
+
 @media only screen and (max-width: 620px) {
   /* For mobile phones: */
   .menu,

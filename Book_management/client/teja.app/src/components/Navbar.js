@@ -1,11 +1,12 @@
+import { Link } from "react-router-dom";
 
 function NavBar() {
     return (
         <div className="menu">
-            <a href="#">Link 1</a>
-            <a href="#">Link 2</a>
-            <a href="#">Link 3</a>
-            <a href="#">Link 4</a>
+            <Link to="/">Home</Link>
+            <Link to="/register">Register</Link>
+            <Link to="/login">Login</Link>
+            <Link to="#">Dummy</Link>
         </div>
     )
 }
