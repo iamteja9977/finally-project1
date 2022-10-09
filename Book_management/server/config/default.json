@@ -10,5 +10,5 @@
     "PORT": 465
   },
   "PRIVATE_KEY": "codeforindia",
-  "DB_URI": "mongodb+srv://sabiya:mymongodbaccount@sabiya.28lg5jn.mongodb.net/book-management"
+  "DB_URI": "mongodb+srv://m001-student:m001-mongodb-basics@thiru.0vhyxil.mongodb.net/Book_management"
 }

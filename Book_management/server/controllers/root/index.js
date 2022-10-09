@@ -3,7 +3,6 @@ import bcrypt from "bcrypt";
 import config from "config";
 import jwt from "jsonwebtoken"
 
-import randomString from "../../utils/randomString.js";
 //IMPORT Models
 
 import Users from "../../models/Users/index.js";

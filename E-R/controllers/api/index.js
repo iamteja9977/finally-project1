@@ -7,6 +7,10 @@ import config from "config";
 
 import generateToken from "../../middleware/auth/generateToken.js";
 import { randomString, sendEmail, sendSMS } from "../../utils/index.js"
+
+import Users from "../../models/Users/index.js";
+import Tasks from "../../models/Tasks/index.js";
+
 const router = express.Router();
 
 

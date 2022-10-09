@@ -1,5 +1,4 @@
 import express from "express";
-import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import config from "config";
 
@@ -8,13 +7,11 @@ import randomString from "../../utils/randomString.js";
 //IMPORT Models
 import Admin from "../../models/Admin/index.js";
 import Users from "../../models/Users/index.js";
-import book from "../../models/book/index.js"
-import generateToken from "../../middlewares/auth/index.js";
-import authMiddleware from "../../middlewares/auth/verifyToken.js";
-// import authMiddleware from "../../middleware/auth/verifyToken.js";
-//IMport Validations
 
-import { userRegisterValidatorRules,loginValidation, errorMiddleware,addbookvalidations } from "../../middlewares/validation/index.js";
+// import generateToken from "../../middlewares/auth/index.js";
+// import authMiddleware from "../../middlewares/auth/verifyToken.js";
+
+import { userRegisterValidatorRules,userLoginValidatorRules, errorMiddleware,addbookvalidations } from "../../middlewares/validation/index.js";
 
 const router = express.Router();
 
@@ -39,20 +36,20 @@ router.post("/register", userRegisterValidatorRules(), errorMiddleware, async (r
         let { firstname, lastname, email, password } = req.body;
         // console.log(req.body);
         //Avoid Double Registration
-        let mailFound = await Users.findOne({ email });
-        if (mailFound) {
-            res.status(409).json({ "error": "Email Already Registered" })
+        let userData = await Users.findOne({ email });
+        if (userData) {
+            return res.status(409).json({ "error": "Email Already Registered" })
+        }
+        userData = await Admin.findOne({ email });
+        if (userData) {
+            return res.status(409).json({ "error": "Email Already Registered" })
         }
 
-        password = await bcrypt.hash(password, 12);
-        
-        let user_data={firstname,lastname,email,password}
-        const user = new Users(user_data);
+        req.body.password = await bcrypt.hash(password, 12);
+        const user = new Users(req.body);
 
         user.userverifytoken = randomString(15);
-        // user.Books=[]
 
-        // const user = new Users(user_data);
         await user.save();
 
         res.status(200).json({ "success": "Register is UP" })
