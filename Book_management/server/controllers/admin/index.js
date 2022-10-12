@@ -2,7 +2,7 @@ import express from "express";
 
 import Admin from "../../models/Admin/index.js";
 import Users from "../../models/Users/index.js";
-import book from "../../models/book/index.js"
+import book from "../../models/Book/index.js"
 
 import authMiddleware from "../../middlewares/auth/verifyToken.js";
 import { userRegisterValidatorRules,userLoginValidatorRules, errorMiddleware,addbookvalidations } from "../../middlewares/validation/index.js";

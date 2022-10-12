@@ -39,21 +39,6 @@ router.post("/login", userLoginValidatorRules(), errorMiddleware, async (req, re
                 return res.status(401).json({ "error": "Invalid Credentials" });
         }
 
-        // console.log(req.body);
-        // let userFound = await Users.findOne({ email });
-        // console.log(userFound);
-
-        // if (!userFound) {
-        //     return res.status(401).json({ "error": "Invalid Credentials" })
-        // }
-        // userFound = await Admin.findOne({ email });
-        // console.log(userFound);
-
-        // if (!userFound) {
-        //     return res.status(401).json({ "error": "Invalid Credentials" })
-        // }
-       
-
         let matchPassword = await bcrypt.compare(password, userFound.password)
         if (!matchPassword) {
             return res.status(401).json({ "error": "Invalid Credentials" })
@@ -83,5 +68,26 @@ router.post("/login", userLoginValidatorRules(), errorMiddleware, async (req, re
     }
 })
 
+
+/*
+End Point : /api/auth
+Method GET
+Access : Public
+Description : Authorise the User
+*/
+router.get('/api/auth', async(req,res)=>{
+    try {
+       let token=req.header["auth-token"];
+       if(!token){
+        return res.status(401).json({error: "Unauthorised Access"})
+       }
+       let privatekey=config.get("PRIVATE_KEY");
+       let payload=jwt.verify(token,privatekey)
+        res.status(200).json({success:"Authentication Successful",payload})
+    } catch (error) {
+        console.log(error)
+        res.status(401).json({error: "Unauthorised Access"});
+    }
+})
 
 export default router;

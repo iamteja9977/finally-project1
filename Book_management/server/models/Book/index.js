@@ -4,11 +4,11 @@ let bookSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    Author: {
+    author: {
         type: String,
         required: true,
     },
-    coverImagrUrl: {
+    coverImageUrl: {
         type: String,
         required: true,
     },
@@ -17,7 +17,7 @@ let bookSchema = new mongoose.Schema({
         unique: true,
         required: true
     },
-    PageCount: {
+    pageCount: {
         type: Number,
         required: true
     },
