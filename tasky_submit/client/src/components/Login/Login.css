@@ -1,0 +1,48 @@
+/* sign in page csss */
+.sincontainer {
+    display: flex;
+    /* width: 40%; */
+    margin: auto;
+    margin: 4% 25% 10% 25%;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+    border-radius: 0px 10px 10px 10px;
+  }
+  
+  .sinsub-container {
+    /* border: solid red; */
+    width: 75%;
+    background-color: #3cb19e;
+    border-radius: 10px 0px 0px 10px;
+    margin-top: 10px;
+  
+  }
+  
+  .sinsub-container2 {
+    /* border: yellow solid; */
+    padding: 7% 5% 9% 5%;
+  }
+  
+  /* Form css */
+  input[type="text"],
+  input[type="password"],
+  input[type="email"],
+  input[type="tel"],
+  textarea,
+  select {
+    width: 60%;
+    padding: 15px;
+    margin: -8px 0 22px 0;
+    display: inline-block;
+    border: none;
+    background-color: #f1f1f1;
+    margin-left: 80px;
+  
+  }
+  
+  input[type="submit"] {
+    width: 30%;
+    padding: 15px;
+    font-weight: bolder;
+    border: none;
+    cursor: pointer;
+  }

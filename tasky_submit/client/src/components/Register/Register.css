@@ -1,0 +1,106 @@
+/* button signup */
+input[type="submit"] {
+    background-color: #3cb19e;
+    border-radius: 20px 20px 20px 20px;
+    margin-left: 170px;
+    color: white;
+  }
+  
+  a {
+    text-decoration: none;
+  }
+  
+  .crhe {
+    color: #3cb19e;
+    text-align: center;
+    margin-top: -25px;
+    margin-bottom: 34px;
+  }
+  
+  .sihe {
+    color: #2a3635;
+    text-align: center;
+  
+  }
+  
+  .signbtn {
+    background-color: #3cb19e;
+    border-radius: 20px 20px 20px 20px;
+    border: solid white;
+    width: 85px;
+    padding: 12px;
+  }
+  
+  h1 {
+    color: white;
+  }
+  
+  .signl {
+    margin-top: 200px;
+  }
+  
+  /* Form css */
+  input[type="text"],
+  input[type="password"],
+  input[type="email"],
+  input[type="tel"],
+  textarea,
+  select {
+    width: 60%;
+    padding: 15px;
+    margin: -8px 0 22px 0;
+    display: inline-block;
+    border: none;
+    background-color: #f1f1f1;
+    margin-left: 80px;
+  }
+  
+  input[type="submit"] {
+    width: 30%;
+    padding: 15px;
+    font-weight: bolder;
+    border: none;
+    cursor: pointer;
+  }
+  
+  /* button signup */
+  input[type="submit"]{
+    background-color: #3cb19e;
+    border-radius: 20px 20px 20px 20px;
+    margin-left: 170px;
+    color: white;
+  }
+  
+  a {
+    text-decoration: none;
+  }
+  
+  .crhe{
+    color: #3cb19e;
+    text-align: center;
+    margin-top: -25px;
+    margin-bottom: 34px;
+  }
+  
+  .sihe{
+      color: #2a3635;
+        text-align: center;
+  
+  }
+  .signbtn{
+  background-color: #3cb19e;
+  border-radius: 20px 20px 20px 20px;
+  border: solid white;
+  width: 85px;
+  padding: 12px;
+  
+  
+  }
+  
+  h1{
+    color: white;
+  }
+  
+  .signl{
+    margin-top: 200px;
+  }
