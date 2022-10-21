@@ -1,0 +1,14 @@
+#submitbt{
+    width:250px;
+    align-items: center;
+    margin-left: 0;
+}
+#deadline{
+    width: 18px;
+    margin-left: 20px;
+    background-color: green;;
+}
+#taskname{
+    width: 450px;
+    }
+   

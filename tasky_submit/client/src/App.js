@@ -5,8 +5,8 @@ import axios from "axios"
 import Login from "./components/Login/Login.js"
 import Register from "./components/Register/Register.js"
 import Dash from "./components/Dash/Dash.js"
-import AddTask from "./components/Addtask.js"
-import EditTask from "./components/EditTask.js"
+import AddTask from "./components/AddTask/Addtask.js"
+import EditTask from "./components/EditTask/EditTask.js"
 import  './components/Navbar/Navbar.js';
 
 import PrivateRoutes from "./components/PrivateRoutes.js"
