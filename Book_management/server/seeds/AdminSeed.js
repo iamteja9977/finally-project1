@@ -21,10 +21,6 @@ let adminSchema = new mongoose.Schema({
     },
     userverified: {
         type: Boolean,
-        default: false
-    },
-    role: {
-        type: String,
         default: "admin"
     }
 });

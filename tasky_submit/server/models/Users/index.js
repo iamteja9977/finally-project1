@@ -2,10 +2,7 @@ import mongoose from "mongoose";
 
 //This is Main User Schema
 const userSchema = new mongoose.Schema({
-    usertype: {
-        type: String,
-        default: "user" //This assigns default value user
-    },
+   
     firstname: {
         type: String,
         maxlength: 25,

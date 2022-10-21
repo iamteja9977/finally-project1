@@ -7,7 +7,7 @@ import { randomString, sendEmail, sendSMS } from "../../utils/index.js";
 
 // import userModel from "../../models/Users/index.js";
 import taskModel from "../../models/Tasks/index.js";
-import { scheduleTaskValidation } from "../../middleware/validation/index.js";
+import { scheduleTaskValidation ,errorMiddleware,editTaskValidation} from "../../middleware/validation/index.js";
 
 const router = express.Router();
 
@@ -19,7 +19,7 @@ BODY:
 task_name
 deadline
 */
-router.post("/",scheduleTaskValidation(), authMiddleware, async (req, res) => {
+router.post("/",scheduleTaskValidation(), authMiddleware,errorMiddleware, async (req, res) => {
   try {
   
     const payload = req.payload;
@@ -124,9 +124,9 @@ router.get("/tasks", authMiddleware, async (req, res) => {
     
     const payload = req.payload;
 
-    let taskData = await taskModel.findOne({ _id: payload.user_id });
+    let taskData = await taskModel.findOne({user: payload.user_id });
 
-    res.status(200).json({ tasks: taskData.tasks });
+    res.status(200).json({ success:"taska found",taskData });
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "Internal Server Error" });
@@ -205,20 +205,20 @@ Access : Public
 Description : Authorise the User
 */
 
-router.get("/auth", async (req, res) => {
-  try {
-      let token = req.headers["auth-token"];
-      if (!token) {
-          return res.status(401).json({ error: "Unauthorised Access" });
-      }
-      let privatekey = config.get("PRIVATE_KEY");
-      let payload = jwt.verify(token, privatekey);
-      res.status(200).json({ success: "Authentication Successful", payload });
-  } catch (error) {
-      console.error(error);
-      res.status(401).json({ error: "Unauthorised Access" });
-  }
-})
+// router.get("/auth", async (req, res) => {
+//   try {
+//       let token = req.headers["auth-token"];
+//       if (!token) {
+//           return res.status(401).json({ error: "Unauthorised Access" });
+//       }
+//       let privatekey = config.get("PRIVATE_KEY");
+//       let payload = jwt.verify(token, privatekey);
+//       res.status(200).json({ success: "Authentication Successful", payload });
+//   } catch (error) {
+//       console.error(error);
+//       res.status(401).json({ error: "Unauthorised Access" });
+//   }
+// })
 
 
 /*

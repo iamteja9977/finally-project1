@@ -1,4 +1,4 @@
-import  {Router} from "express";
+import   express  from "express";
 import jwt from "jsonwebtoken";
 import authMiddleware from "../../middleware/auth/verifyToken.js";
 import { scheduleJob, scheduledJobs, cancelJob } from "node-schedule";
@@ -6,7 +6,6 @@ import { scheduleJob, scheduledJobs, cancelJob } from "node-schedule";
 import { randomString, sendEmail, sendSMS } from "../../utils/index.js";
 
 import userModel from "../../model.js"
-import authMiddleware from "../../middleware/auth/verifyToken.js";
 import taskModel from "../../models/Tasks/index.js"
 
 

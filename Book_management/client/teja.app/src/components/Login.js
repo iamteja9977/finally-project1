@@ -20,7 +20,7 @@ function Login({ alert, showAlert }) {
     }
     useEffect(() => {
         if (localStorage.getItem("token")) {
-            if (JSON.parse(localStorage.getItem("token").role == "admin")) {
+            if (JSON.parse(localStorage.getItem("token").role === "admin")) {
                 navigate("/admin");
             } else {
                 navigate("/user");
@@ -31,11 +31,12 @@ function Login({ alert, showAlert }) {
         try {
             //Prevents Refreshing the Form
             e.preventDefault();
-            // console.log(userData);
+            console.log(userData);
             let res = await axios.post("/api/login", userData);
-            // console.log(res.data);
+            console.log(res.data);
             localStorage.setItem("token", JSON.stringify({ token: res.data.token, role: res.data.role }))
-            if (res.data.role == "admin") {
+            console.log(res.data.role)
+            if (res.data.role === "admin") {
                 navigate("/admin");
             } else {
                 navigate("/user");
@@ -63,8 +64,8 @@ function Login({ alert, showAlert }) {
                     msg: error.response.data.error
                 })
             }
-            // console.log("Catch")
-            console.log(error.response.data.error);
+            console.log("Catch")
+            // console.log(error.response.data.error);
         }
     }
     return (

@@ -17,21 +17,21 @@ router.post("/AddBook", addbookvalidations(), errorMiddleware ,authMiddleware, a
       }
 
         //Check Req.body
-      let { title,Author,coverImagrUrl,id,PageCount,publisher,synopsis} = req.body;
+      let { title,author,coverImageUrl,id,pageCount,publisher,synopsis} = req.body;
 
     //    let Book_id=randomString(14)
 let userFound= await Users.findOne(payload.id)
-console.log(userFound)
+// console.log(userFound)
 let Book_data={
         title,
-        Author,
-        coverImagrUrl,
+        author,
+        coverImageUrl,
         id,
-        PageCount,
+        pageCount,
         publisher,
         synopsis
     }
-    console.log(Book_data)
+    // console.log(Book_data)
     const user = new book(Book_data);
     // console.log(userFound.BOOKS=[Book_data])
     //  userFound.push(Book_data);

@@ -26,7 +26,7 @@ function AddTask() {
             e.preventDefault();
             console.log(newtask);
             let token = JSON.parse(localStorage.getItem("token")).token
-            let res = await axios.post("/api/task/task", newtask, {
+            let res = await axios.post("/api/task", newtask, {
                 headers: {
 
                     "auth-token": token

@@ -1,5 +1,5 @@
 {
-  "URL": "http://192.168.68.133:5000",
+  "URL": "http://192.168.68.222:5000",
   "PORT": 5000,
   "EMAIL_SMTP": {
     "HOST": "mail.csmafia.com",

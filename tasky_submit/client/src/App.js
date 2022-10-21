@@ -5,6 +5,8 @@ import axios from "axios"
 import Login from "./components/Login/Login.js"
 import Register from "./components/Register/Register.js"
 import Dash from "./components/Dash/Dash.js"
+import AddTask from "./components/Addtask.js"
+import EditTask from "./components/EditTask.js"
 import  './components/Navbar/Navbar.js';
 
 import PrivateRoutes from "./components/PrivateRoutes.js"
@@ -47,6 +49,9 @@ function App() {
 
         <Route element={<PrivateRoutes />}>
         <Route path="/dashboard" element={<Dash />} />
+        <Route path="/addtask" element ={<AddTask/>} />
+        <Route path='/edittask' element={<EditTask />} />
+
         </Route>
       </Routes>
     </>
