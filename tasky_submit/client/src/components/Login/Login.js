@@ -4,7 +4,7 @@ import axios from "axios"
 
 import './Login.css'
 
-const Login = () => {
+const Login = ({ alert, showAlert }) => {
   let navigate = useNavigate()
   const [userData, setUserData] = useState({
     email: "",
@@ -27,9 +27,9 @@ const Login = () => {
         navigate("dashboard")
       }
     }
-    // if (localStorage.getItem("token")) {
-    //   navigate("/dashboard")
-    // }
+    if (localStorage.getItem("token")) {
+      navigate("/dashboard")
+    }
   }, [])
 
   const onSubmitHandler = async (e) => {
@@ -37,18 +37,37 @@ const Login = () => {
       e.preventDefault()
       let res = await axios.post("/api/login", userData)
       console.log(res.data)
-      localStorage.setItem(
-        "token",
-        JSON.stringify({ token: res.data.token, role: res.data.role })
+      localStorage.setItem("token", JSON.stringify({ token: res.data.token, role: res.data.role })
       )
       if (res.data.role === "admin") {
         navigate("/")
       } else {
         navigate("/dashboard")
       }
+      showAlert({
+        type: "success",
+        msg: res.data.success
+      })
     } catch (error) {
-      console.log("Catch")
-      console.log(error.response.data.error)
+      if (error.response.data.errors) {
+        //Handling Express Validators
+        let errorString = "";
+        error.response.data.errors.forEach((ele) => {
+          errorString += ele.msg
+        })
+        showAlert({
+          type: "error",
+          msg: errorString
+        })
+      } else {
+        //Custom Errors
+        showAlert({
+          type: "error",
+          msg: error.response.data.error
+        })
+      }
+      // console.log("Catch")
+      console.log(error.response.data.error);
     }
   }
 
@@ -58,7 +77,7 @@ const Login = () => {
         <div className="sinsub-container">
           <center>
             <div className="signl">
-              <h1>Welcoome Back</h1>
+              <h1>Welcome Back</h1>
               <p>Don't Have An Account Please Sign Up</p>
 
               <div className="signbtn">
@@ -72,6 +91,8 @@ const Login = () => {
           <h5 className="sihe">Enter Your Email And Password To Sign In </h5>
           <form onSubmit={onSubmitHandler}>
             <br />
+            {alert !== null && <h3 className={`alert-${alert.type}`}>{alert.msg}</h3>}
+
             <input
               type="email"
               name="email"

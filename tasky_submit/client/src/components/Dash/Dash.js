@@ -1,32 +1,91 @@
-import React from "react"
+import React, { useState, useEffect } from 'react';
+import clock from "../assets/clock.png";
+import tick from "../assets/tick.png";
+// import Loading from "./assets/Loading1.js";
 
-// import Loading from "./Loading"
+import Footer from '../Footer/Footer.js';
+import { Link, useNavigate } from "react-router-dom";
+import axios from 'axios';
+import "../Dash/Dash.css"
+function Dashboard() {
+  
+  let navigate = useNavigate();
+  let [tasks, setTasks] = useState([])
+  
+  useEffect(() => {
+    async function verifyAuth() {
+      try {
+        let token = JSON.parse(localStorage.getItem("token")).token
+        let { data } = await axios.get("/api/auth", {
+          headers: {
+            "auth-token": token
+          }
+        })
+      } catch (error) {
+        console.error(error.response.data)
+        navigate("/login")
+      }
+    } 
+    verifyAuth();
 
-import './Dash.css'
 
+    async function getalltasks() {
+      try {
+        let token = JSON.parse(localStorage.getItem("token")).token
+        let { data } = await axios.get("/api/task/tasks", tasks, {
+          headers: {
+            "auth-token": token
+          }
+        })
+        setTasks(data.alltasks.tasks);
+        console.log(tasks);
+        
+      } catch (error) {
+        console.error(error.response.data)
+      }
+    }getalltasks();
 
-const Dash = (users, loading) => {
+  }, [])
+  console.log(tasks);
   return (
     <>
-      <h2>Task Manager</h2>
-      <div className="main">
-        <div className="ADD">
-          <input id="input" type="text" placeholder="Enter text here" />
-          <input id="date" type="datetime-local" />
-          <button className="bt">ADD</button>
-        </div>
-        <div className="list">
-          <div className="task">
-            <p className="text">your task</p>
-            <span>
-              <button className="bt2"> Delete</button>
-              <button className="bt2"> Edit</button>
-            </span>
-          </div>
-        </div>
-      </div>
+
+      {/* {loading && <Loading />} */}
+
+      <center>
+        <h1 style={{ display: "inline", margin: "230px" }}>Dashboard</h1> <Link to="/AddTask" >Add Task</Link>
+        <table id="dashboard" >
+
+          <thead >
+            <tr>
+              <th>Task ID</th>
+              <th>Task Name</th>
+              <th>Is Completed</th>
+              <th>Edit/Delete</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              
+              tasks.map((task, i) => {
+                console.log(task.isCompleted)
+                // tasks.isCompleted ? tick : clock
+               
+                return (<tr key={i}>
+                  <td>{task._id}</td>
+                  <td>{task.taskname}</td>
+                  <td>{task.isCompleted ? <img style={{ width: "35px" }} src={tick} alt="Loading.." /> : <img style={{ width: "35px" }}  src={clock} alt="Loading.." />}</td>
+                  <td><Link to="/edittask"><button type='button'>Edit</button></Link><button>Delete</button></td> 
+                </tr>)
+              })
+            }
+          </tbody>
+        </table>
+      </center><br /><br />
+
+      <Footer />
     </>
   )
 }
 
-export default Dash
+export default Dashboard;

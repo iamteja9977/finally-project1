@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import bcrypt from 'bcrypt';
 import config from "config"
-
+import jwt from "jsonwebtoken";
 import {
 	errorMiddleware,
 	loginValidation,
@@ -160,6 +160,31 @@ router.post('/login', loginValidation(), errorMiddleware, async (req, res) => {
 		res.status(500).json({ error: 'Internal Server Error' });
 	}
 });
+
+
+/*
+End Point : /api/auth
+Method GET
+Access : Public
+Description : Authorise the User
+*/
+
+router.get("/auth", async (req, res) => {
+    try {
+        let token = req.headers["auth-token"];
+        if (!token) {
+            return res.status(401).json({ error: "Unauthorised Access" });
+        }
+        let privatekey = config.get("PRIVATE_KEY");
+        let payload = jwt.verify(token, privatekey);
+        res.status(200).json({ success: "Authentication Successful", payload });
+    } catch (error) {
+        console.error(error);
+        res.status(401).json({ error: "Unauthorised Access" });
+    }
+})
+
+
 
 /*
 METHOD : GET

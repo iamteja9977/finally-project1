@@ -104,3 +104,9 @@ input[type="submit"] {
   .signl{
     margin-top: 200px;
   }
+  .alert-success{
+    color:green
+  }
+  .alert-error{
+    color:red
+  }

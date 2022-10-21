@@ -9,7 +9,7 @@
     "start": "node app.js",
     "dev": "nodemon app.js"
   },
-  "author": "Abdullah",
+  "author": "thirupathi",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.0.1",
